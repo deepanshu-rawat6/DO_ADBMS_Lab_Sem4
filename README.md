@@ -1,1 +1,1 @@
-# Advanced DataBase Management Lab
+# Advanced DataBase Management Systems Lab
