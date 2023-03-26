@@ -74,17 +74,15 @@ select * from emp where njob = (select njob from emp where ename = 'MILLER')  or
 select ename from emp where sal = (select MAX(sal) from emp where dept_no = 20);
 
 -- 6.	List the employees who are senior to most recently hired employee working under king.
-select * from emp where sal = (select MAX(sal) from emp);
+select * from emp 
+	where hiredate < (select max(hiredate) from emp
+		where mgr = (select emp_no from emp where ename = "KING" ));
 
 -- 7.	List the names of the emps who are getting the highest sal dept wise.
-select d.dname, e.ename, e.sal from emp e join dept d on e.dept_no = d.dept_no 
-where e.sal in (select MAX(sal) from emp group by dept_no) order by d.dept_no, e.sal desc;
+select * from emp where sal in (select MAX(sal) from emp group by dept_no);
 
 -- 8.	List the emps whose sal is equal to the average of max and minimum.
-select ename, sal from emp where sal = (select AVG(salary) from (
-	select MAX(sal) as salary from emp union all 
-    select MIN(sal) as salary from emp) temp
-);
+select * from emp where sal = (select ( max(sal) + min(sal))/2 from emp);
 
 -- 9.	List the emps who joined in the company on the same date.
 select * from emp where hiredate in (
